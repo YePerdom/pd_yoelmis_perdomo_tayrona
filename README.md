@@ -18,7 +18,7 @@ The backend is built with **Node.js** and **Express**, the database is managed w
 ## Project structure
 
 ```bash
-biblioteca/
+pd_yoelmis_perdomo_tayrona/
 │
 ├── backend/ 
 │  └── config/
@@ -31,10 +31,10 @@ biblioteca/
 │  ├── .env
 │  ├── main.js
 │  ├── package.json
-│  └── data/
-│  │  └── pd_yoelmis_perdomo_entity-relationship.jpg
-│  │  └── postman_colecction.json
-│  │  └── script.sql
+├── docs/
+│  └── pd_yoelmis_perdomo_entity-relationship.jpg
+│  └── postman_colecction.json
+│  └── script.sql
 ├── .gitignore
 └── README.md
 ```
@@ -44,14 +44,14 @@ biblioteca/
 1. Clone the repository:
 
 ```bash
-git clone [`https://github.com/YePerdom/pd_yoelmis_perdomo_tayrona`](https://github.com/YePerdom/pd_yoelmis_perdomo_tayrona)
+git clone https://github.com/YePerdom/pd_yoelmis_perdomo_tayrona
 cd pd_yoelmis_perdomo_tayrona
 ```
 
 1. Install dependencies:
 
 ```bash
-cd backen
+cd backend
 npm install
 ```
 
@@ -200,7 +200,7 @@ Creates a new client
 
 #### **Update some client data**  
 
-**URL:** PUT [`/clients/;id`](/clients/;id)  
+**URL:** PUT [`/clients/:id`](/clients/:id)  
 **Description:**  
 update some client data  
 
@@ -234,7 +234,7 @@ update some client data
 
 #### **Delete a client**  
 
-**URL:** [`/clients/;id`](/clients/;id)  
+**URL:** [`/clients/:id`](/clients/:id)  
 
 **Path Paramenters:**
 
@@ -250,7 +250,7 @@ update some client data
 }
 ```
 
-### **Specials sndpoints**
+### **Specials endpoints**
 
 #### **Get how much each client paid**
 
@@ -278,7 +278,7 @@ retruns a list of all clients and its how much has paid each client
 | GET    | /api/v1/clients | Get how much each client paid |
 | GET    | /api/v1/clients/paid | Get All Clients Data |
 | POST   | /api/v1/clients | Create a New Client    |
-| PUT    | /p/api/v1/clients | Update some client data      |
-| DELETE | /api/v1/clients | Delete a client       |
+| PUT    | /p/api/v1/clients/:id| Update some client data      |
+| DELETE | /api/v1/clients/:id | Delete a client       |
   
 ```
