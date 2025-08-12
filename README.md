@@ -23,6 +23,10 @@ pd_yoelmis_perdomo_tayrona/
 ├── backend/ 
 │  └── config/
 │  │  └── db.js 
+│  └── data/
+│  │  └── loaderData.csv
+│  │  └── runSeeds.csv
+│  │  └── loaderData.csv
 │  └── seeds/
 │  │  └── loaderData.js
 │  │  └── runSeeds.js
