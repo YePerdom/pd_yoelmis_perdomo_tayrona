@@ -21,23 +21,23 @@ The backend is built with **Node.js** and **Express**, the database is managed w
 pd_yoelmis_perdomo_tayrona/
 │
 ├── backend/ 
-│  └── config/
+│  ├── config/
 │  │  └── db.js 
-│  └── data/
-│  │  └── loaderData.csv
-│  │  └── runSeeds.csv
-│  │  └── loaderData.csv
-│  └── seeds/
-│  │  └── loaderData.js
+│  ├── data/
+│  │  ├── bills.csv
+│  │  ├── clients.csv
+│  │  └── transaction.csv
+│  ├── seeds/
+│  │  ├── loaderData.js
 │  │  └── runSeeds.js
-│  └── services/
+│  ├── services/
 │  │  └── app.js
 │  ├── .env
 │  ├── main.js
-│  ├── package.json
+│  └── package.json
 ├── docs/
-│  └── pd_yoelmis_perdomo_entity-relationship.jpg
-│  └── postman_colecction.json
+│  ├── pd_yoelmis_perdomo_entity-relationship.jpg
+│  ├── postman_colecction.json
 │  └── script.sql
 ├── .gitignore
 └── README.md
