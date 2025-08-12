@@ -66,7 +66,13 @@ PORT=3000
 
 ```
 
-4. Initialize the backend:
+4. Load seeds:
+
+```bash
+npm run seeds
+```
+
+5. Initialize the backend:
 
 ```bash
 npm run start
