@@ -9,12 +9,9 @@ The backend is built with **Node.js** and **Express**, the database is managed w
 
 - Node.js
 - Express.js
-- dotenv
-- csv-parser
-- MySQL
-- HTML, CSS, JavaScript (Frontend)
 - csv-parser (To load data from files CSV)
-- vite
+- dotenv
+- MySQL
 
 ---
 
@@ -23,14 +20,21 @@ The backend is built with **Node.js** and **Express**, the database is managed w
 ```bash
 biblioteca/
 │
-├── docs/ # Documentation
-│       ...
-├── app/ # Frontend (HTML, CSS, JS)
-│       ...
-├── server/ # Backend
-│       ...
-├── index.html 
-├── .env # Variables de entorno
+├── backend/ 
+│  └── config/
+│  │  └── db.js 
+│  └── seeds/
+│  │  └── loaderData.js
+│  │  └── runSeeds.js
+│  └── services/
+│  │  └── app.js
+│  ├── .env
+│  ├── main.js
+│  ├── package.json
+│  └── data/
+│  │  └── pd_yoelmis_perdomo_entity-relationship.jpg
+│  │  └── postman_colecction.json
+│  │  └── script.sql
 ├── .gitignore
 └── README.md
 ```
@@ -40,13 +44,14 @@ biblioteca/
 1. Clone the repository:
 
 ```bash
-git clone 
-cd biblioteca
+git clone [`https://github.com/YePerdom/pd_yoelmis_perdomo_tayrona`](https://github.com/YePerdom/pd_yoelmis_perdomo_tayrona)
+cd pd_yoelmis_perdomo_tayrona
 ```
 
 1. Install dependencies:
 
 ```bash
+cd backen
 npm install
 ```
 
@@ -57,38 +62,14 @@ DB_HOST=localhost
 DB_USER=root
 DB_PASSWORD=password
 DB_NAME=db_name
-DB_PORT=3306
+PORT=3000
+
 ```
 
 4. Initialize the backend:
 
 ```bash
-node server/index.js por corregir
-```
-
-5. Initialize the frontend:
-
-```bash
-npm run dev
-```
-
-## The server will be available at
-
-```bash
-http://localhost:3000
-```
-
-## Endpoints available
-
-```bash
-| method | route             | Description                 |
-| ------ | ----------------- | --------------------------- |
-| GET    | /api/v1/prestamos | Obtener todos los préstamos |
-| GET    | /api/v1/prestamos | Obtener un préstamo por ID  |
-| POST   | /api/v1/prestamos | Crear un nuevo préstamo     |
-| PUT    | /api/v1/prestamos | Actualizar un préstamo      |
-| DELETE | /api/v1/prestamos | Eliminar un préstamo        |
-  
+npm run start
 ```
 
 ## Database documentation
@@ -112,141 +93,186 @@ http://localhost:3000
 | Field  | Data type | constraints | Description |
 | ----------------- | ---------------- | ----------------------|--------------- |
 | id| INT | NOT NULL AUTO_INCREMENT PRIMARY KEY | Unique identifier for the id|
-|client_name |VARCHAR(255) |NOT NULL | contains the client name|
-| id| INT | NOT NULL AUTO_INCREMENT PRIMARY KEY | Unique identifier for the id|
-| id| INT | NOT NULL AUTO_INCREMENT PRIMARY KEY | Unique identifier for the id|
-| id| INT | NOT NULL AUTO_INCREMENT PRIMARY KEY | Unique identifier for the id|
-| id| INT | NOT NULL AUTO_INCREMENT PRIMARY KEY | Unique identifier for the id|
+|client_name |VARCHAR(255) |NOT NULL | Contains the client name|
+| client_identification | VARCHAR(20) | UNIQUE NOT NULL | Contains the client identification|
+| address | VARCHAR(250) | NOT NULL | Contains the client  address|
+| phone_number | VARCHAR(30) | UNIQUE NOT NULL | Contains the client phone number|
+| email_address | VARCHAR(255) | UNIQUE NOT NULL | Contains the client email address|
 
-some descriptions
- PRIMARY KEY → Unique identifier for the `nombre de lo que identifica`,
- FOREING KEY → References `tabla.campo que referencia`
- `campo` name
- `campo` date
- `campo` description
- national identification number
- `campo` email address
- gender
+---
 
-----
+#### **transactions**
+
+| Field  | Data type | constraints | Description |
+| ----------------- | ---------------- | ----------------------|--------------- |
+| id| INT | NOT NULL AUTO_INCREMENT PRIMARY KEY | Unique identifier for the id|
+| id_client | INT| FOREING KEY | References clientes.id|
+| transaction_date_hour | TIMESTAMP |NOT NULL| Contains the the transaction date and hour|
+| transaction_amount | INT |NOT NULL| Contains the the transaction amount |
+| transaction_estatus | VARCHAR(10) |NOT NULL| Contains the the transaction status |
+| transacion_type | VARCHAR(20) |NOT NULL| Contains the the transaction status type |
+
+---
+
+#### **bills**
+
+| Field  | Data type | constraints | Description |
+| ----------------- | ---------------- | ----------------------|--------------- |
+| id| INT | NOT NULL AUTO_INCREMENT PRIMARY KEY | Unique identifier for the id|
+| id_client | INT| FOREING KEY | References clientes.id|
+|billing_period |CHAR(7)|NOT NULL| Contains the the billing period  |
+|billing_amount |INT |NOT NULL| Contains the the billing amount |
+|amount_paid |INT |NOT NULL|  Contains the the billing amount paid |
+|payment_method |VARCHAR(10) |NOT NULL| Contains the the billing payment method|
+
+---
 
 #### Relationships
 
-- **1 `uno`eje: un profesor  → N `muchos`puede tenemos muchos estudiantes**
+- **1 client  → N transaction**
+- **1 client  → N bills**
 
 ---
 
 ## API  Endpoins Documentation
 
-All API requests use the base URL: `(http://localhost:3000)`
+All API requests use the base URL: [`http://localhost:3000/api/v1`](http://localhost:3000/api/v1)
 
 ---
 
-### **ejemplo :  Historial de un libro por su ISBN**
+### **CRUD**  
 
-**URL:** GET `/prestamos/historial/:isbn`
-**Description:**
-retruns a ...
+#### **Get All Clients Data**
+
+**URL:** GET [`/clients`](/clients)  
+**Description:**  
+retruns a list of all clients and its personal information
 
 **response 200 example:**
 
 ```json
-   {
-        "id_prestamo": 14,
-        "fecha_prestamo": "2025-06-08T05:00:00.000Z",
-        "fecha_devolucion": "2025-08-12T05:00:00.000Z",
-        "estado": "activo",
-        "usuario": "Helena Micaela Alvarado",
-        "isbn": "978-1-968004-87-3",
-        "libro": "Modi beatae"
-    }
-`lo que regrese la respuesta de la query en postman`
+{
+    "id": 1,
+    "client_name": "Angel Daniel",
+    "client_identification": "149186547",
+    "address": "USNS Davis\nFPO AP 78518",
+    "phone_number": "(873)222-2692x09480",
+    "email_address": "rmiller@boyer.com"
+}
 ```
 
 ---
 
-**URL:** POST `ruta final`
-**Description:**
-Creates a...
+#### **Create a New Client**  
+
+**URL:** POST [`/clients`](/clients)  
+**Description:**  
+Creates a new client  
 
 **request body example:**
 
 ```json
-   {
-        "fecha_prestamo": "2025-06-08",
-        "fecha_devolucion": "2025-08-12",
-        "estado": "activo",
-        "usuario": "Helena Micaela Alvarado",
-        "isbn": "978-1-968004-87-3",
-        "libro": "Modi beatae"
-    }
-`lo que envias en el body de la query en postman`
+{
+    "client_name": "Angel Daniel",
+    "client_identification": "149186547",
+    "address": "USNS Davis\nFPO AP 78518",
+    "phone_number": "(873)222-2692x09480",
+    "email_address": "rmiller@boyer.com"
+}
 ```
 
 **response 200 example:**
 
 ```json
 {
-    "mensaje": "prestamo creado exitosamente"
+    "mensaje": "client created successfully",
+    "id": 101
 }
-`lo que regrese la respuesta de la query en postman`
 ```
 
 ---
 
-**URL:** PUT `/prestamos/31`
-**Description:**
-Updates a...
+#### **Update some client data**  
 
-**Path Paramenters:**
-| Name | Type | Required | Description |
-| id---- | int---- | yes-------- | id to update----------- |
-
-some description:
-`campo` to update
-
-**request body example:**
-
-```json
- {
-        "fecha_prestamo": "2025-06-08",
-        "fecha_devolucion": "2025-08-12",
-        "estado": "entregado",
-        "usuario": "Helena Micaela Alvarado",
-        "isbn": "978-1-968004-87-3",
-        "libro": "Modi beatae"
-    }
-`lo que envias en el body de la query en postman`
-```
-
-**response 200 example:**
-
-```json
-{
-    "mensaje": "prestamo actualizado"
-}
-`lo que regrese la respuesta de la query en postman`
-```
-
----
-
-**URL:** DELETE `/prestamos/31`
-**Description:**
-Deletes a...
+**URL:** PUT [`/clients/;id`](/clients/;id)  
+**Description:**  
+update some client data  
 
 **Path Paramenters:**
 
 | Name | Type | Required | Description |
 | ---- | ---- | -------- | ----------- |
+| id | int  | yes | id to update |
 
-some description:
-`campo` to delete
+**request body example:**
+
+```json
+{
+    "client_name": "Angel Daniel",
+    "client_identification": "149154547",
+    "address": "Calle 17 #55 - 46",
+    "phone_number": "(87)222-2692x09480",
+    "email_address": "rmiler@boyer.com"
+}
+```
 
 **response 200 example:**
 
 ```json
 {
-    "mensaje": "prestamo eliminado"
+    "mensaje": "client updated"
 }
-`lo que regrese la respuesta de la query en postman`
+```
+
+---
+
+#### **Delete a client**  
+
+**URL:** [`/clients/;id`](/clients/;id)  
+
+**Path Paramenters:**
+
+| Name | Type | Required | Description |
+| ---- | ---- | -------- | ----------- |
+| id | int  | yes | id to delete |  
+
+**response 200 example:**
+
+```json
+{
+    "mensaje": "client deleted"
+}
+```
+
+### **Specials sndpoints**
+
+#### **Get how much each client paid**
+
+**URL:** GET [`/clients/paid`](/clients/paid)  
+**Description:**  
+retruns a list of all clients and its how much has paid each client
+
+**response 200 example:**
+
+```json
+{
+    "client_name": "Angel Daniel",
+    "client_identification": "149186547",
+    "amount_paid": "0"
+}
+```
+
+---
+
+### Endpoints available
+
+```bash
+| method | route             | Description                 |
+| ------ | ----------------- | --------------------------- |
+| GET    | /api/v1/clients | Get how much each client paid |
+| GET    | /api/v1/clients/paid | Get All Clients Data |
+| POST   | /api/v1/clients | Create a New Client    |
+| PUT    | /p/api/v1/clients | Update some client data      |
+| DELETE | /api/v1/clients | Delete a client       |
+  
 ```

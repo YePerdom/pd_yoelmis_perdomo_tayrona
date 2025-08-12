@@ -1,0 +1,159 @@
+{
+	"info": {
+		"_postman_id": "aa2582e0-d1a7-4022-b398-18620a9d022e",
+		"name": "My Collection",
+		"description": "### Welcome to Postman! This is your first collection. \n\nCollections are your starting point for building and testing APIs. You can use this one to:\n\n• Group related requests\n• Test your API in real-world scenarios\n• Document and share your requests\n\nUpdate the name and overview whenever you’re ready to make it yours.\n\n[Learn more about Postman Collections.](https://learning.postman.com/docs/collections/collections-overview/)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "47538246",
+		"_collection_link": "https://yoepardo-2735905.postman.co/workspace/Yoelmis-Perdomo's-Workspace~560d44eb-2273-4288-88e7-32755a8d0cf6/collection/47538246-aa2582e0-d1a7-4022-b398-18620a9d022e?action=share&source=collection_link&creator=47538246"
+	},
+	"item": [
+		{
+			"name": "Get data client",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/v1/clients",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"clients"
+					]
+				},
+				"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+			},
+			"response": []
+		},
+		{
+			"name": "Create a new user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Successful POST request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n        \"client_name\": \"Angel Daniel Araujo\",\n        \"client_identification\": \"149154547\",\n        \"address\": \"USNS Davis\\nFPO AP 78518\",\n        \"phone_number\": \"(87)222-2692x09480\",\n        \"email_address\": \"rmiller0254@boyer.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/v1/clients",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"clients"
+					]
+				},
+				"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+			},
+			"response": []
+		},
+		{
+			"name": "Update some client data",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"client_name\": \"Angel Daniel\",\n    \"client_identification\": \"149154547\",\n    \"address\": \"Calle 17 #55 - 46\",\n    \"phone_number\": \"(87)222-2692x09480\",\n    \"email_address\": \"rmiler@boyer.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/v1/clients/101",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"clients",
+						"101"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a client",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"client_name\": \"Angel Daniel\",\n    \"client_identification\": \"149154547\",\n    \"address\": \"Calle 17 #55 - 46\",\n    \"phone_number\": \"(87)222-2692x09480\",\n    \"email_address\": \"rmiler@boyer.com\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/v1/clients/101",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"clients",
+						"101"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get how much each client paid",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}

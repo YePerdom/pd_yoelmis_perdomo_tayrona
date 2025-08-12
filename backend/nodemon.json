@@ -5,5 +5,5 @@
     "data/*",
     "*.csv"
   ],
-  "exec": "node index.js"
+  "exec": "node main.js"
 }

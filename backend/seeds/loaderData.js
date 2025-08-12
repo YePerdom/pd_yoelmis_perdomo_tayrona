@@ -17,11 +17,10 @@ export async function loadClients() {
                 client.address,
                 client.phone_number,
                 client.email_address,
-                client.payment_method
             ]);
         }).on("end", async () => {
             try {
-                const [results] = await pool.query("INSERT INTO clients (id, client_name, client_identification, address, phone_number, email_address, payment_method) VALUE ?;", [clients]);
+                const [results] = await pool.query("INSERT INTO clients (id, client_name, client_identification, address, phone_number, email_address) VALUE ?;", [clients]);
                 console.log(`success: inserted ${results.affectedRows} new clients`);
                 res();
             } catch (err) {
@@ -79,10 +78,11 @@ export async function loadBills() {
                 bill.billing_period,
                 bill.billing_amount,
                 bill.amount_paid,
+                bill.payment_method
             ]);
         }).on("end", async () => {
             try {
-                const [results] = await pool.query("INSERT INTO bills (id, id_client, billing_period,billing_amount, amount_paid) VALUE ?;", [bills]);
+                const [results] = await pool.query("INSERT INTO bills (id, id_client, billing_period,billing_amount, amount_paid, payment_method) VALUE ?;", [bills]);
                 console.log(`success: inserted ${results.affectedRows} new bills`);
                 res();
             } catch (err) {
