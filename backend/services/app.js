@@ -16,6 +16,11 @@ app.use(express.json());
 app.get("/api/v1/clients", async (req, res) => {
     try {
         const [clients] = await pool.query("SELECT * FROM clients;");
+        if (clients.length === 0) {
+            return res.status(200).json({
+                mensaje: "there are not clients to show"
+            });
+        }
         res.status(200).json(clients);
     } catch (error) {
         res.status(500).json({
@@ -27,7 +32,7 @@ app.get("/api/v1/clients", async (req, res) => {
     };
 });
 
-//2. get all clients, its transactions and bills information.
+//2. get a client, its transactions and bills information.
 app.get("/api/v1/clients/transaction-information/:id", async (req, res) => {
     const { id } = req.params;
     try {
@@ -37,7 +42,7 @@ app.get("/api/v1/clients/transaction-information/:id", async (req, res) => {
                 mensaje: "client not found"
             });
         }
-        res.status(200).json(rows);
+        res.status(200).json(client);
     } catch (error) {
         res.status(500).json({
             status: "error",
@@ -129,6 +134,11 @@ app.delete("/api/v1/clients/:id", async (req, res) => {
 app.get("/api/v1/clients/paid", async (req, res) => {
     try {
         const [clients] = await pool.query("SELECT c.client_name, c.client_identification, SUM(b.amount_paid) amount_paid FROM clients c LEFT JOIN bills b ON c.id = b.id_client GROUP BY c.client_name, c.client_identification;");
+        if (clients.length === 0) {
+            return res.status(200).json({
+                mensaje: "there are not clients to show"
+            });
+        }
         res.status(200).json(clients);
     } catch (error) {
         res.status(500).json({
@@ -140,5 +150,45 @@ app.get("/api/v1/clients/paid", async (req, res) => {
     };
 });
 
+// 2. bills that have not yet been fully paid
+app.get("/api/v1/bills/not-fully-paid", async (req, res) => {
+    try {
+        const [clients] = await pool.query("SELECT c.client_name, c.client_identification, b.billing_amount, b.amount_paid, SUM(b.billing_amount - b.amount_paid) pending_amount, t.transacion_type FROM clients c JOIN bills b ON c.id = b.id_client JOIN transactions t ON c.id = t.id_client GROUP BY c.client_name, c.client_identification, b.billing_amount, b.amount_paid, t.transacion_type HAVING pending_amount > 0;");
+        if (clients.length === 0) {
+            return res.status(200).json({
+                mensaje: "there are not clients to show"
+            });
+        }
+        res.status(200).json(clients);
+    } catch (error) {
+        res.status(500).json({
+            status: "error",
+            endpoint: req.originalUrl,
+            method: req.method,
+            error: error.message
+        });
+    };
+});
+
+//3. All transactions made from a specific platform
+app.get("/api/v1/transactions/:plataform", async (req, res) => {
+    const { plataform } = req.params
+    try {
+        const [clients] = await pool.query("SELECT c.client_name, c.client_identification, t.transaction_date_hour, t.transaction_amount, transaction_estatus, t.transacion_type FROM clients c JOIN transactions t ON c.id = t.id_client JOIN bills b ON c.id = b.id_client WHERE b.payment_method = ?;", [plataform]);
+        if (clients.length === 0) {
+            return res.status(200).json({
+                mensaje: "there are not clients to show"
+            });
+        }
+        res.status(200).json(clients);
+    } catch (error) {
+        res.status(500).json({
+            status: "error",
+            endpoint: req.originalUrl,
+            method: req.method,
+            error: error.message
+        });
+    };
+});
 
 export default app;

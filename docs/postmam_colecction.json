@@ -1,11 +1,11 @@
 {
 	"info": {
-		"_postman_id": "aa2582e0-d1a7-4022-b398-18620a9d022e",
-		"name": "My Collection",
+		"_postman_id": "c916363b-ef1b-4c0b-b54a-9c750ca333ea",
+		"name": "postmam_colecction",
 		"description": "### Welcome to Postman! This is your first collection. \n\nCollections are your starting point for building and testing APIs. You can use this one to:\n\n• Group related requests\n• Test your API in real-world scenarios\n• Document and share your requests\n\nUpdate the name and overview whenever you’re ready to make it yours.\n\n[Learn more about Postman Collections.](https://learning.postman.com/docs/collections/collections-overview/)",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "47538246",
-		"_collection_link": "https://yoepardo-2735905.postman.co/workspace/Yoelmis-Perdomo's-Workspace~560d44eb-2273-4288-88e7-32755a8d0cf6/collection/47538246-aa2582e0-d1a7-4022-b398-18620a9d022e?action=share&source=collection_link&creator=47538246"
+		"_collection_link": "https://yoepardo-2735905.postman.co/workspace/Yoelmis-Perdomo's-Workspace~560d44eb-2273-4288-88e7-32755a8d0cf6/collection/47538246-c916363b-ef1b-4c0b-b54a-9c750ca333ea?action=share&source=collection_link&creator=47538246"
 	},
 	"item": [
 		{
@@ -41,6 +41,14 @@
 					]
 				},
 				"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+			},
+			"response": []
+		},
+		{
+			"name": "Get all clients, its transactions and bills information",
+			"request": {
+				"method": "GET",
+				"header": []
 			},
 			"response": []
 		},
@@ -151,7 +159,65 @@
 			"name": "Get how much each client paid",
 			"request": {
 				"method": "GET",
-				"header": []
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/v1/clients/paid",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"clients",
+						"paid"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get bills that have not yet been fully paid",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/v1/clients/paid",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"clients",
+						"paid"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All transactions made from a specific platform",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/v1/transactions/nequi",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"transactions",
+						"nequi"
+					]
+				}
 			},
 			"response": []
 		}

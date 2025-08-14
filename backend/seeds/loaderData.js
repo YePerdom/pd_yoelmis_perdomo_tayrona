@@ -1,5 +1,5 @@
 import fs from "fs"; //this module enables to read diferent format files.
-import path, { resolve } from "path"; //this module enables to work with file routes.
+import path from "path"; //this module enables to work with file routes.
 import csv from "csv-parser";//this module enables analysis format files csv.
 import { pool } from "../config/db.js";// this is the database connection
 
