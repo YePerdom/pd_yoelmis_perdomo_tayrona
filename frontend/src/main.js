@@ -1,6 +1,6 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { dashboard } from "./dashboard.js";
-import { configDashboard } from "./app/dashboardConfig.js";
+import { configDashboard } from "./config/dashboardConfig.js";
 
 const routes = {
     "/": {
