@@ -32,28 +32,8 @@ app.get("/api/v1/clients", async (req, res) => {
     };
 });
 
-//2. get a client, its transactions and bills information.
-app.get("/api/v1/clients/transaction-information/:id", async (req, res) => {
-    const { id } = req.params;
-    try {
-        const [client] = await pool.query("SELECT c.client_name, c.client_identification, b.billing_amount, b.amount_paid, t.transacion_type, t.transaction_estatus FROM clients c LEFT JOIN bills b ON c.id = b.id_client LEFT JOIN transactions t ON c.id = t.id_client WHERE c.id = ?;", [id]);
-        if (client.length === 0) {
-            return res.status(200).json({
-                mensaje: "client not found"
-            });
-        }
-        res.status(200).json(client);
-    } catch (error) {
-        res.status(500).json({
-            status: "error",
-            endpoint: req.originalUrl,
-            method: req.method,
-            error: error.message
-        });
-    };
-});
 
-//3. create a new client;
+//2. create a new client;
 app.post("/api/v1/clients", async (req, res) => {
     const { client_name, client_identification, address, phone_number, email_address } = req.body;
     try {
@@ -80,7 +60,7 @@ app.post("/api/v1/clients", async (req, res) => {
     };
 });
 
-//4. Update some user data
+//3. Update some user data
 app.put("/api/v1/clients/:id", async (req, res) => {
     const { id } = req.params;
     const { client_name, client_identification, address, phone_number, email_address } = req.body;
@@ -108,7 +88,7 @@ app.put("/api/v1/clients/:id", async (req, res) => {
     }
 });
 
-//5. Delete a client
+//4. Delete a client
 app.delete("/api/v1/clients/:id", async (req, res) => {
     const { id } = req.params;
     try {
@@ -190,5 +170,63 @@ app.get("/api/v1/transactions/:plataform", async (req, res) => {
         });
     };
 });
+
+//4. get client by id.
+app.get("/api/v1/clients/:id", async (req, res) => {
+    const { id } = req.params
+    try {
+        const [clients] = await pool.query("SELECT * FROM clients WHERE = ?;", [id]);
+        if (clients.length === 0) {
+            return res.status(200).json({
+                mensaje: "there are not clients to show"
+            });
+        }
+        res.status(200).json(clients);
+    } catch (error) {
+        res.status(500).json({
+            status: "error",
+            endpoint: req.originalUrl,
+            method: req.method,
+            error: error.message
+        });
+    };
+});
+
+//5. get a client, its transactions and bills information.
+app.get("/api/v1/clients/transaction-information/:id", async (req, res) => {
+    const { id } = req.params;
+    try {
+        const [client] = await pool.query("SELECT c.client_name, c.client_identification, b.billing_amount, b.amount_paid, t.transacion_type, t.transaction_estatus FROM clients c LEFT JOIN bills b ON c.id = b.id_client LEFT JOIN transactions t ON c.id = t.id_client WHERE c.id = ?;", [id]);
+        if (client.length === 0) {
+            return res.status(200).json({
+                mensaje: "client not found"
+            });
+        }
+        res.status(200).json(client);
+    } catch (error) {
+        res.status(500).json({
+            status: "error",
+            endpoint: req.originalUrl,
+            method: req.method,
+            error: error.message
+        });
+    };
+});
+
+// //6. Get clients by theirs names or number identifiaction.
+// app.get("/api/v1/clients/:client", async (req, res) => {
+//     const { client } = req.params;
+//     try {
+//         const [clients] = await pool.query(`SELECT * FROM clients WHERE client_name LIKE ?% OR client_identification LIKE $?`, [client, client]);
+//         if (clients.length === 0) {
+//             return res.status(200).json({
+//                 mensaje: "there are not clients to show"
+//             });
+//         };
+//         res.status(200).json(clients);
+//     } catch (error) {
+//         console.error(error);
+//     };
+// });
 
 export default app;
