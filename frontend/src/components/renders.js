@@ -1,5 +1,5 @@
 export function renderTable(clients) {
-    const tbody = document.getElementById("#clients-table tbody");
+    const tbody = document.querySelector(".tbody-table");
     tbody.innerHTML = "";
 
     clients.forEach(client => {
@@ -22,7 +22,7 @@ export function renderTable(clients) {
 };
 
 export function renderTableEditable(client) {
-    const tbody = document.getElementById("#clients-table tbody");
+    const tbody = document.querySelector(".tbody-table");
     tbody.innerHTML = "";
 
     const row = document.createElement("tr");
